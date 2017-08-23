@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateMasterAgenciesTable extends Migration {
+class CreateLogsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,11 +12,10 @@ class CreateMasterAgenciesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('master_agencies', function(Blueprint $table)
+		Schema::create('logs', function(Blueprint $table)
 		{
 			$table->integer('id', true);
-			$table->string('name', 50);
-			$table->string('description', 100)->nullable();
+			$table->integer('action_user_id');
 		});
 	}
 
@@ -28,7 +27,7 @@ class CreateMasterAgenciesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('master_agencies');
+		Schema::drop('logs');
 	}
 
 }

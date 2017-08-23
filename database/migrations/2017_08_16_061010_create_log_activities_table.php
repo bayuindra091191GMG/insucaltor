@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateMasterStatusesTable extends Migration {
+class CreateLogActivitiesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,10 +12,10 @@ class CreateMasterStatusesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('master_statuses', function(Blueprint $table)
+		Schema::create('log_activities', function(Blueprint $table)
 		{
 			$table->integer('id', true);
-			$table->string('description', 50);
+			$table->text('activity');
 		});
 	}
 
@@ -27,7 +27,7 @@ class CreateMasterStatusesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('master_statuses');
+		Schema::drop('log_activities');
 	}
 
 }
