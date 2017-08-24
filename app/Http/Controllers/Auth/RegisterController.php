@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class RegisterController extends Controller
 {
@@ -63,7 +64,12 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
+            'first_name' => 'required|max:255',
+            'last_name' => 'required|max:255',
+            'agency' => 'required',
+            'phone' => 'required|regex:/(08)[0-9]/',
+            'license' => 'required',
+            'device_imei' => 'required',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
         ]);
@@ -77,8 +83,17 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $dt = Carbon::now();
         return User::create([
-            'name' => $data['name'],
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'agency' => $data['agency'],
+            'date_join' => Carbon::now(),
+            'date_expired' => $dt->addMonth(),
+            'phone' => $data['phone'],
+            'license' => $data['license'],
+            'device_imei' => $data['device_imei'],
+            'status' => $data['status'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\User;
 
 class LoginController extends Controller
 {
@@ -34,12 +35,19 @@ class LoginController extends Controller
         $this->validateLogin($request);
 
         if ($this->attemptLogin($request)) {
-            $user = $this->guard()->user();
-            $user->generateToken();
+            $username = $request->input('email');
+            $imei = $request->input('device_imei');
 
-            return response()->json([
-                'data' => $user->toArray(),
-            ]);
+            if($userData = User::where('email', '=', $username)->where('device_imei', '=', $imei)->exists()){
+
+                $user = $this->guard()->user();
+                $user->generateToken();
+
+                return response()->json([
+                    'data' => $user->toArray(),
+                ]);
+
+            }
         }
 
         return $this->sendFailedLoginResponse($request);
