@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Maatwebsite\Excel\Facades\Excel;
 use Mockery\Exception;
 use Carbon\Carbon;
+use Mail;
 
 class DocumentController extends Controller
 {
@@ -56,6 +57,14 @@ class DocumentController extends Controller
             })
                 ->setFilename($newFileName)
                 ->store('xls', public_path('user_docs/'));
+
+            //Send the Email
+            Mail::send('emails.offer', ['user' => '123'], function ($message) use($newFileName, $json){
+                //
+                $message->attach(public_path('user_docs/'.$newFileName.'.xls'));
+                $message->from('randf77@gmail.com', 'Offering Letter By ICalculator');
+                $message->to($json->user_email, $json->nama_tertanggung)->subject('Offering Letter!');
+            });
 
             return response('Success Send Surat Penaawaran!', 200)
                 ->header('Content-Type', 'text/plain');
