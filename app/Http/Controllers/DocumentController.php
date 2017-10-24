@@ -20,12 +20,13 @@ class DocumentController extends Controller
           "jenis_asuransi": "Otomate",
           "tahun_kendaraan": "2012",
           "agent_name" : "Rand Ferdyanto",
-          "nilai_pertanggungan" : "200000",
+          "nilai_pertanggungan" : "150000000",
           "premi" : "7000000",
           "third_party" : "",
           "personal_accident" : "",
-          "jenis_kendaraan" : "Toyota",
-          "user_email" : "ferdyantorand@gmail.com"
+          "merek_kendaraan" : "Toyota",
+          "user_email" : "ferdyantorand@gmail.com",
+          "rate" : "4.80"
         }
     }*/
     public function SendDocument(){
@@ -43,12 +44,13 @@ class DocumentController extends Controller
                     //Set The field Data
                     $sheet->getCell('H9')->setValueExplicit('Tangerang, '.Carbon::now('Asia/Jakarta')->format('d M Y'));
                     $sheet->getCell('E21')->setValueExplicit($json->nama_tertanggung);
-                    $sheet->getCell('E23')->setValueExplicit($json->jenis_kendaraan);
+                    $sheet->getCell('E23')->setValueExplicit($json->merek_kendaraan);
                     $sheet->getCell('E25')->setValueExplicit($json->tahun_kendaraan);
                     $sheet->getCell('E29')->setValueExplicit('Rp'.number_format($json->nilai_pertanggungan, 0, ",", "."));
                     $sheet->getCell('G33')->setValueExplicit('Rp'.number_format($json->nilai_pertanggungan, 0, ",", "."));
                     $sheet->getCell('H33')->setValueExplicit('Rp'.number_format($json->premi, 0, ",", "."));
                     $sheet->getCell('G40')->setValueExplicit($json->third_party);
+                    $sheet->getCell('F33')->setValueExplicit($json->rate.'%');
                     $sheet->getCell('G41')->setValueExplicit($json->personal_accident);
                     $sheet->getCell('H43')->setValueExplicit('Rp'.number_format($json->premi, 0, ",", "."));
                     $sheet->getCell('H45')->setValueExplicit('Rp'.number_format($json->premi, 0, ",", "."));
