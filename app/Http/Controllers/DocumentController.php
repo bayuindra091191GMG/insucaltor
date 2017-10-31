@@ -26,7 +26,25 @@ class DocumentController extends Controller
           "personal_accident" : "",
           "merek_kendaraan" : "Toyota",
           "user_email" : "ferdyantorand@gmail.com",
-          "rate" : "4.80"
+          "rate" : "4.80",
+          "TSFWD_rate" : "0.000",
+          "EQVET_rate" : "0.000",
+          "SRCCTS_rate" : "0.000",
+          "personal_accident_driver_rate" : "0.000",
+          "personal_accident_penumpang_4_orang_rate" : "0.000",
+          "third_party_rate" : "0.000",
+          "TSFWD_tsi" : "0.000",
+          "EQVET_tsi" : "0.000",
+          "SRCCTS_tsi" : "0.000",
+          "personal_accident_driver_tsi" : "0.000",
+          "personal_accident_penumpang_4_orang_tsi" : "0.000",
+          "third_party_tsi" : "0.000",
+          "TSFWD_premi" : "0.000",
+          "EQVET_premi" : "0.000",
+          "SRCCTS_premi" : "0.000",
+          "personal_accident_driver_premi" : "0.000",
+          "personal_accident_penumpang_4_orang_premi" : "0.000",
+          "third_party_premi" : "0.000",
         }
     }*/
 
@@ -99,7 +117,7 @@ class DocumentController extends Controller
             $path = public_path('document/');
             Excel::load($path . '/Surat Penawaran New otomate - Solitare.xlsx', function($reader) use($json)
             {
-                $reader->sheet('Otomate', function($sheet) use($json)
+                $reader->sheet('Solitare', function($sheet) use($json)
                 {
                     //Set The field Data
                     $sheet->getCell('A10')->setValueExplicit($json->nama_tertanggung);
@@ -157,7 +175,7 @@ class DocumentController extends Controller
             $path = public_path('document/');
             Excel::load($path . $filePath, function($reader) use($json)
             {
-                $reader->sheet('Otomate', function($sheet) use($json)
+                $reader->sheet('Comprehensive', function($sheet) use($json)
                 {
                     //Set The field Data
                     $sheet->getCell('A10')->setValueExplicit($json->nama_tertanggung);
@@ -170,9 +188,33 @@ class DocumentController extends Controller
                     // Table Field
                     $sheet->getCell('G33')->setValueExplicit('Rp'.number_format($json->nilai_pertanggungan, 0, ",", "."));
                     $sheet->getCell('H33')->setValueExplicit('Rp'.number_format($json->premi, 0, ",", "."));
-                    $sheet->getCell('G40')->setValueExplicit($json->third_party);
                     $sheet->getCell('F33')->setValueExplicit($json->rate.'%');
-                    $sheet->getCell('G41')->setValueExplicit($json->personal_accident);
+
+                    //Field Pertambahan
+                    $sheet->getCell('F36')->setValueExplicit($json->TSFWD_rate);
+                    $sheet->getCell('G36')->setValueExplicit($json->TSFWD_tsi);
+                    $sheet->getCell('H36')->setValueExplicit('Rp'.number_format($json->TSFWD_premi, 0, ",", "."));
+
+                    $sheet->getCell('F37')->setValueExplicit($json->EQVET_rate);
+                    $sheet->getCell('G37')->setValueExplicit($json->EQVET_tsi);
+                    $sheet->getCell('H37')->setValueExplicit('Rp'.number_format($json->EQVET_premi, 0, ",", "."));
+
+                    $sheet->getCell('F38')->setValueExplicit($json->SRCCTS_rate);
+                    $sheet->getCell('G38')->setValueExplicit($json->SRCCTS_tsi);
+                    $sheet->getCell('H38')->setValueExplicit('Rp'.number_format($json->SRCCTS_premi, 0, ",", "."));
+
+                    $sheet->getCell('F39')->setValueExplicit($json->personal_accident_driver_rate);
+                    $sheet->getCell('G39')->setValueExplicit($json->personal_accident_driver_tsi);
+                    $sheet->getCell('H39')->setValueExplicit('Rp'.number_format($json->personal_accident_driver_premi, 0, ",", "."));
+
+                    $sheet->getCell('F40')->setValueExplicit($json->personal_accident_penumpang_4_orang_rate);
+                    $sheet->getCell('G40')->setValueExplicit($json->personal_accident_penumpang_4_orang_tsi);
+                    $sheet->getCell('H40')->setValueExplicit('Rp'.number_format($json->personal_accident_penumpang_4_orang_premi, 0, ",", "."));
+
+                    $sheet->getCell('F41')->setValueExplicit($json->third_party_rate);
+                    $sheet->getCell('G41')->setValueExplicit($json->third_party_tsi);
+                    $sheet->getCell('H41')->setValueExplicit('Rp'.number_format($json->third_party_premi, 0, ",", "."));
+
                     $sheet->getCell('H43')->setValueExplicit('Rp'.number_format($json->premi, 0, ",", "."));
                     $sheet->getCell('H45')->setValueExplicit('Rp'.number_format($json->premi, 0, ",", "."));
                     $sheet->getCell('A63')->setValueExplicit($json->agent_name);
