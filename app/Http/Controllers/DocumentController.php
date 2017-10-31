@@ -111,7 +111,6 @@ class DocumentController extends Controller
         try {
             $json_result = file_get_contents('php://input');
             $json = json_decode($json_result);
-            //$harga_kendaraan = number_format($json->harga_kendaraan, 0, ",", ".");
             $newFileName = $json->agent_name.Carbon::now('Asia/Jakarta')->format('Ymdhms');
 
             $path = public_path('document/');
@@ -162,18 +161,10 @@ class DocumentController extends Controller
         try {
             $json_result = file_get_contents('php://input');
             $json = json_decode($json_result);
-            //$harga_kendaraan = number_format($json->harga_kendaraan, 0, ",", ".");
             $newFileName = $json->agent_name.Carbon::now('Asia/Jakarta')->format('Ymdhms');
 
-            if($json->type == 'otomate'){
-                $filePath = '/Surat Penawaran New otomate.xlsx';
-            }
-            else{
-                $filePath = '/Surat Penawaran New otomate - Smart.xlsx';
-            }
-
             $path = public_path('document/');
-            Excel::load($path . $filePath, function($reader) use($json)
+            Excel::load($path . '/Surat Penawaran Comphre Std.xlsx', function($reader) use($json)
             {
                 $reader->sheet('Comprehensive', function($sheet) use($json)
                 {
